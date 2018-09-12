@@ -1,0 +1,453 @@
+{
+	"info": {
+		"_postman_id": "df0caad9-96f9-438d-b7ab-e1c61dce4cc9",
+		"name": "einstein",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Images",
+			"item": [
+				{
+					"name": "Create_Vision_Dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a1ad292-10f5-46c4-959a-0698f2d72ab7",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"Image_DataSet_Id\", jsonData.id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache"
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "type",
+									"value": "image",
+									"type": "text"
+								},
+								{
+									"key": "data",
+									"type": "file"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.einstein.ai/v2/vision/datasets/upload/sync",
+							"protocol": "https",
+							"host": [
+								"api",
+								"einstein",
+								"ai"
+							],
+							"path": [
+								"v2",
+								"vision",
+								"datasets",
+								"upload",
+								"sync"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl -X POST -H \\\"Authorization: Bearer <TOKEN>\\\" -H \\\"Cache-Control: no-cache\\\" -H \\\"Content-Type: multipart/form-data\\\" -F \\\"type=image\\\" -F \\\"path=http://einstein.ai/images/mountainvsbeach.zip\\\" https://api.einstein.ai/v2/vision/datasets/upload/sync"
+					},
+					"response": []
+				},
+				{
+					"name": "Dataset_Vision_Trianing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "93071631-0cd6-4c4c-8ad3-fce70ef20656",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"Model_Vision_Id\", jsonData.modelId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache"
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Vehicle Types",
+									"type": "text"
+								},
+								{
+									"key": "datasetId",
+									"value": "{{Image_DataSet_Id}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.einstein.ai/v2/vision/train",
+							"protocol": "https",
+							"host": [
+								"api",
+								"einstein",
+								"ai"
+							],
+							"path": [
+								"v2",
+								"vision",
+								"train"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl -X POST -H \\\"Authorization: Bearer <TOKEN>\\\" -H \\\"Cache-Control: no-cache\\\" -H \\\"Content-Type: multipart/form-data\\\" -F \\\"name=Beach and Mountain Model\\\" -F \\\"datasetId=<DATASET_ID>\\\" https://api.einstein.ai/v2/vision/train"
+					},
+					"response": []
+				},
+				{
+					"name": "Dataset_Vision_Training_Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.einstein.ai/v2/vision/train/{{Model_Vision_Id}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"einstein",
+								"ai"
+							],
+							"path": [
+								"v2",
+								"vision",
+								"train",
+								"{{Model_Vision_Id}}"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl -X GET -H \\\"Authorization: Bearer <TOKEN>\\\" -H \\\"Cache-Control: no-cache\\\" https://api.einstein.ai/v2/vision/train/"
+					},
+					"response": []
+				},
+				{
+					"name": "get all datasets Vision",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.einstein.ai/v2/vision/datasets",
+							"protocol": "https",
+							"host": [
+								"api",
+								"einstein",
+								"ai"
+							],
+							"path": [
+								"v2",
+								"vision",
+								"datasets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete_Vision_Dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "23d63672-7a10-46e0-9350-83a841f4d227",
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"Vision_Id_Deleted\", jsonData.id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.einstein.ai/v2/vision/datasets/{{Vision_Id_To_Delete}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"einstein",
+								"ai"
+							],
+							"path": [
+								"v2",
+								"vision",
+								"datasets",
+								"{{Vision_Id_To_Delete}}"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl -X DELETE -H \\\"Authorization: Bearer <TOKEN>\\\" -H \\\"Cache-Control: no-cache\\\" https://api.einstein.ai/v2/vision/datasets/"
+					},
+					"response": []
+				},
+				{
+					"name": "deletion status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://api.einstein.ai/v2/vision/deletion/{{Vision_Id_Deleted}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"einstein",
+								"ai"
+							],
+							"path": [
+								"v2",
+								"vision",
+								"deletion",
+								"{{Vision_Id_Deleted}}"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl -X GET -H \\\"Authorization: Bearer <TOKEN>\\\" -H \\\"Cache-Control: no-cache\\\" https://api.einstein.ai/v2/vision/deletion/"
+					},
+					"response": []
+				},
+				{
+					"name": "predict_Vision",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Cache-Control",
+								"value": "no-cache"
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "sampleContent",
+									"value": "",
+									"type": "file"
+								},
+								{
+									"key": "modelId",
+									"value": "{{Model_Vision_Id}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.einstein.ai/v2/vision/predict",
+							"protocol": "https",
+							"host": [
+								"api",
+								"einstein",
+								"ai"
+							],
+							"path": [
+								"v2",
+								"vision",
+								"predict"
+							]
+						},
+						"description": "Generated from a curl request: \ncurl -X POST -H \\\"Authorization: Bearer <TOKEN>\\\" -H \\\"Cache-Control: no-cache\\\" -H \\\"Content-Type: multipart/form-data\\\" -F \\\"sampleLocation=http://einstein.ai/images/546212389.jpg\\\" -F \\\"modelId=<YOUR_MODEL_ID>\\\" https://api.einstein.ai/v2/vision/predict"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "intent",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer XJQG24NGRQA2A33LV4ZOMHUEAACK6G44DSQHWEDIIV6QA5WEFX6OIWZPTHXFQNIHGCP4O77M3UQIW3OBRIYLGLS64CDV3FNQMIRBCUI"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					},
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "modelId",
+							"value": "JY74IT5SMNK4WA6VM3PPCAZSSE",
+							"type": "text"
+						},
+						{
+							"key": "document",
+							"value": "I'd like to buy some shoes",
+							"type": "text"
+						},
+						{
+							"key": "numResults",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api.einstein.ai/v2/language/intent",
+					"protocol": "https",
+					"host": [
+						"api",
+						"einstein",
+						"ai"
+					],
+					"path": [
+						"v2",
+						"language",
+						"intent"
+					]
+				},
+				"description": "Generated from a curl request: \ncurl -X POST -H \\\"Authorization: Bearer XJQG24NGRQA2A33LV4ZOMHUEAACK6G44DSQHWEDIIV6QA5WEFX6OIWZPTHXFQNIHGCP4O77M3UQIW3OBRIYLGLS64CDV3FNQMIRBCUI\\\" -H \\\"Cache-Control: no-cache\\\" -H \\\"Content-Type: multipart/form-data\\\" -F \\\"modelId=JY74IT5SMNK4WA6VM3PPCAZSSE\\\" -F \\\"document=I'd like to buy some shoes\\\" https://api.einstein.ai/v2/language/intent"
+			},
+			"response": []
+		},
+		{
+			"name": "get_Access_Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8da6ca72-2d17-4618-97e7-7d34df10d3d5",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+							"type": "text"
+						},
+						{
+							"key": "assertion",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api.einstein.ai/v2/oauth2/token",
+					"protocol": "https",
+					"host": [
+						"api",
+						"einstein",
+						"ai"
+					],
+					"path": [
+						"v2",
+						"oauth2",
+						"token"
+					]
+				},
+				"description": "Generated from a curl request: \ncurl -H \\\"Content-type: application/x-www-form-urlencoded\\\" -X POST https://api.einstein.ai/v2/oauth2/token -d \\\"grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=<ASSERTION_STRING>\\\""
+			},
+			"response": []
+		}
+	]
+}
